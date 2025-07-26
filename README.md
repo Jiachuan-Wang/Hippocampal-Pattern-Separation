@@ -21,19 +21,17 @@ multiprocessing==2.6.2.1
 ### R Dependencies
 I used R version 4.3.1.
 ```
-abind_1.4-5
-latex2exp_0.4.0
-ggplot2_2.2.1
-irlba_2.3.1
-Matrix_1.2-3
-MASS_7.3-47
-randomForest_4.6-12
+tidyverse_2.0.0
+ggplot2_3.5.1
+scales_1.3.0
+viridis_0.6.4
+latex2exp_0.9.6
 ```
 ## Installation guide
 ```
 git clone --recursive https://github.com/Jiachuan-Wang/Hippocampal-Pattern-Separation.git
 ```
-The code should take approximately ?1 seconds to install.
+The code should take approximately 1 second to install.
 
 ## Instructions for use
 Run the Python scripts to simulate the experiments. The generated data sets can be analyzed and visualized using the R codes.
