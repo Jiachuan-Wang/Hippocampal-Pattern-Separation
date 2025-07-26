@@ -2,15 +2,16 @@ Code for the manuscript "Cerebellin-4 suppresses activity-dependent hippocampal 
 
 ## System requirements
 ### Hardware Requirements
-The code requires only a standard computer with enough RAM to support the operations defined by a user. For minimal performance, this will be a computer with about 8 GB of RAM. 
-The runtimes below are generated using a computer with 15 GB RAM, 24 cores@2.20 GHz.
+The code can be run on a standard computer with sufficient RAM to support the defined operations.
+Benchmark runtimes below were generated using a server with 15 GB RAM and 24 cores @ 2.20 GHz.
 
 ### OS Requirements
 The code has been tested on the following systems:
 - Linux: CentOS Linux 7
 - Windows: Windows 11
 ### Python Dependencies
-I used Python 3.9.12.
+Tested with Python 3.9.12.
+Install the following packages:
 ```
 numpy==1.22.4
 pandas==1.4.4
@@ -19,7 +20,8 @@ scikit-learn==1.1.2
 multiprocessing==2.6.2.1
 ```
 ### R Dependencies
-I used R version 4.3.1.
+Tested with R version 4.3.1.
+Install the following packages:
 ```
 tidyverse_2.0.0
 ggplot2_3.5.1
@@ -28,25 +30,36 @@ viridis_0.6.4
 latex2exp_0.9.6
 ```
 ## Installation guide
+Clone the repository:
 ```
 git clone --recursive https://github.com/Jiachuan-Wang/Hippocampal-Pattern-Separation.git
 ```
-The code should take approximately 1 second to install.
+Installation takes approximately 1 second.
 
 ## Instructions for use
-Run the Python scripts to simulate the experiments. The generated data sets can be analyzed and visualized using the R codes.
-To tweak the model parameters, you can specify them in `hp` object.
-- `model.py` The main model components.
-- `PS-only.py` Simulation of the Pattern Separation (PS) training task, related to Figure 3b, 3g, 3h.
-- `FC+PS.py` Simulation of the full fear conditioning (FC) + PS task with freezing behavior, related to Figure 3j-l.
-- `PCA 2cx.py` Plot the principle components (PCs) during a 2 contexts pattern separation task, related to Figure 3e.
-- `PCA 4cx.py` Plot the PCs during a 4 contexts pattern separation task, related to Supplementary figure 3.
-- `PCA 8cx.py` Plot the PCs during a 8 contexts pattern separation task, related to Supplementary figure 4.
-- `Scree plot.py` Simulation of explain variance in dentate gyrus (DG) layer activity, related to Figure 3d and Supplementary figure 5 and 6.
-- `Sparsity.py` Simulation of the active fraction of DG neurons, related to Figure 3f, 3i and Supplementary figure 7.
-- `visualization.R` Use the simulated data sets to plot the figures.
+Run the Python scripts to simulate the experiments. The generated datasets can be analyzed and visualized using the R script.
+Model parameters can be modified in the `hp` object.
 
-The exact data sets used in the manuscript can be found in data availablity section and use the visualization code to generate the same figures. Run the code with different seeds can generate qualitatively similar figures. 
+Script Overview:
+- `model.py` Main model components
+- `PS-only.py` Simulates the Pattern Separation (PS) training task (Figure 3b, 3g, 3h)
+- `FC+PS.py` Simulates full Fear Conditioning (FC) + PS task with freezing behavior (Figure 3j–l)
+- `PCA 2cx.py` Plots principal components (PCs) during a 2-context PS task (Figure 3e)
+- `PCA 4cx.py` Plots PCs during a 4-context PS task (Supplementary Figure 3)
+- `PCA 8cx.py` Plots PCs during an 8-context PS task (Supplementary Figure 4)
+- `Scree plot.py` Simulates explained variance in dentate gyrus (DG) activity (Figure 3d; Supplementary Figures 5 and 6)
+- `Sparsity.py` Simulates active fraction of DG neurons (Figure 3f, 3i; Supplementary Figure 7)
+- `visualization.R` Generates figures from simulated datasets
+
+The exact datasets used in the manuscript will be available to reviewers and readers (see Reporting Summary). Then you can use the provided `visualization.R` script to recreate the published figures. Running the simulations with different seeds yields qualitatively similar results.
 
 ## Demo
-Run `FC+PS.py` to generate the main results regarding the learning dynamics of cosine similarity and freezing ratios given different learning rates and neurogenesis situations. This would output a series of `csv` files starting with CosSimRes or FreezingRes indicting cosine similarity and freezing ratios on each training day, respectively. The code includes 500 replications for each of the 27 parameter sets, which takes approximately 4 hrs on a recommended computer. A sample data set is given in the `demo` folder, which can be used for plotting in `visualization.R`. 
+To reproduce the main results on learning dynamics (cosine similarity and freezing ratios across different learning rates and neurogenesis conditions), run:
+```
+python3 FC+PS.py
+```
+This script will output a series of `.csv` files with names starting with CosSimRes or FreezingRes, indicating cosine similarity and freezing ratios for each training day, respectively.
+
+The code includes 500 replications for each of 27 parameter sets, and takes approximately 4 hours on a recommended machine.
+
+A sample dataset is provided in the `demo` folder and can be used directly with `visualization.R` for plotting.
