@@ -174,7 +174,7 @@ def run_single_rep(rep, hp):
                 ec_act = ec.process(cue)
                 action = agent.process(ec_act)
                 shock = False
-                if T_max > 180 and (i in range(tstep * 180, 181 * step)):
+                if T_max > 180 and (i in range(step * 180, 182 * step)):
                     shock = True
                 reward = get_reward(shock, action[0], sig, r, eps)
                 if action[0] == 1.0 and i < 180 * step:
@@ -197,7 +197,7 @@ def run_single_rep(rep, hp):
                 ec_act = ec.process(cue)
                 action = agent.process(ec_act)
                 shock = False
-                if T_max > 180 and (i in range(tstep * 180, 181 * step)):
+                if T_max > 180 and (i in range(step * 180, 182 * step)):
                     shock = True
                 reward = get_reward(shock, action[0], sig, r, eps)
                 if action[0] == 1.0 and i < 180 * step:
@@ -305,3 +305,4 @@ if __name__ == '__main__':
         # # Neurogenesis with young DGCs
         all_res[0].to_csv('FreezingRes_youngNG_{}lr_{}rep.csv'.format(lr, reps))
         all_res[1].to_csv('CosSimRes_youngNG_{}lr_{}rep.csv'.format(lr, reps))
+
