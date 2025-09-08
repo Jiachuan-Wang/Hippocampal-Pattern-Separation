@@ -33,7 +33,8 @@ class HPC_Agent:
         self.dg.turnon(day)
 
 
-def run_single_rep(rep, hp):
+def run_single_rep(hp, rep, seed):
+    np.random.seed(seed)
     days = 15
     tstep = hp['tstep']
     step = int(1000 / tstep)
@@ -89,8 +90,11 @@ def run_single_rep(rep, hp):
 def run_exp_parallel(reps, hp, n_workers=None):
     """ Runs the experiment in parallel across multiple cores. """
     n_workers = n_workers or mp.cpu_count()  # Use all available cores by default
+    call_id = next(_call_counter)
+    seeds = [42 + call_id * 10_000 + rep for rep in range(reps)]
+    args = [(hp, rep, seeds[rep]) for rep in range(reps)]
     with mp.Pool(processes=n_workers) as pool:
-        results = pool.starmap(run_single_rep, [(rep, hp) for rep in range(reps)])
+        results = pool.starmap(run_single_rep, args)
     # Combine results from all replications
     all_res = pd.concat([res for res in results], ignore_index=False)
     return all_res
@@ -118,6 +122,8 @@ def get_default_hp():
 
 
 if __name__ == '__main__':
+    import itertools
+    _call_counter = itertools.count()
     hp = get_default_hp()
     reps = 30
 
@@ -125,3 +131,4 @@ if __name__ == '__main__':
         hp['si'] = si
         all_res = run_exp_parallel(reps, hp)
         all_res.to_csv('CosSimRes_{}si_{}rep.csv'.format(si, reps))
+
