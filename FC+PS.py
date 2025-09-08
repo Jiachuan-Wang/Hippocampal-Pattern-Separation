@@ -82,7 +82,8 @@ def experiment(day, sub):
     return T_max, chamber
 
 
-def run_single_rep(rep, hp):
+def run_single_rep(hp, rep, seed):
+    np.random.seed(seed)
     days = 15
     sig = hp['punish']
     r = hp['reward']
@@ -221,12 +222,15 @@ def run_single_rep(rep, hp):
     print(cos)
     return res, cos
 
-
+    
 def run_exp_parallel(reps, hp, n_workers=None):
     """ Runs the experiment in parallel across multiple cores. """
-    n_workers = n_workers or mp.cpu_count()  # Use all available cores by default
+     n_workers = n_workers or mp.cpu_count()  # Use all available cores by default
+    call_id = next(_call_counter)
+    seeds = [42 + call_id * 10_000 + rep for rep in range(reps)]
+    args = [(hp, rep, seeds[rep]) for rep in range(reps)]
     with mp.Pool(processes=n_workers) as pool:
-        results = pool.starmap(run_single_rep, [(rep, hp) for rep in range(reps)])
+        results = pool.starmap(run_single_rep, args)
     # Combine results from all replications
     all_res = pd.concat([res for res, _ in results], ignore_index=False)  # Freezing ratio (behavioral) results
     coss = pd.concat([cos for _, cos in results], ignore_index=False)  # Cosine similarity results
@@ -264,6 +268,8 @@ def get_default_hp():
 
 
 if __name__ == '__main__':
+    import itertools
+    _call_counter = itertools.count()
     hp = get_default_hp()
     reps = 500  # number of replications / agents
 
@@ -305,4 +311,5 @@ if __name__ == '__main__':
         # # Neurogenesis with young DGCs
         all_res[0].to_csv('FreezingRes_youngNG_{}lr_{}rep.csv'.format(lr, reps))
         all_res[1].to_csv('CosSimRes_youngNG_{}lr_{}rep.csv'.format(lr, reps))
+
 
