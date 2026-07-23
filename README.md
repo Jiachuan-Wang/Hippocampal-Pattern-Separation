@@ -1,4 +1,4 @@
-Code for the manuscript "Cerebellin-4 suppresses activity-dependent hippocampal neurogenesis to promote pattern separation memory".
+Code for the manuscript "Cerebellin-4 suppresses activity-dependent hippocampal neurogenesis and promotes pattern separation memory".
 
 ## System requirements
 ### Hardware Requirements
